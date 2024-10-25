@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Fintech App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="admin-dashboard.html">SWINGIFY ADMIN DASHBOARD</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="logout.html">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        
+        <h2>User Deposits</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Amount</th>
+                    <th>Plan</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="depositRequests">
+                <!-- Dynamic content will be added here -->
+            </tbody>
+        </table>
+
+        <h2>User Withdrawals</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Amount</th>
+                    <th>Wallet Address</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="withdrawRequests">
+                <!-- Dynamic content will be added here -->
+            </tbody>
+        </table>
+
+        <h2>All Users</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody id="allUsers">
+                <!-- Dynamic content will be added here -->
+            </tbody>
+        </table>
+
+        <h2>Proofs of Payment</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Amount</th>
+                    <th>Proof</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="proofsOfPayment">
+                <!-- Dynamic content will be added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container">
+    <h1>Admin Dashboard</h1>
+
+        <!-- Add Deposit Section -->
+        <h2>Make Deposit</h2>
+        <form id="depositForm" onsubmit="makeDeposit(event)">
+            <div class="form-group">
+                <label for="userId">Select User:</label>
+                <select class="form-control" id="userId" required>
+                    <option value="">Select a user</option>
+                    <!-- User options will be populated here -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount:</label>
+                <input type="number" class="form-control" id="amount" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Make Deposit</button>
+        </form>
+
+        <h2>All Users</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody id="allUsers">
+                <!-- Dynamic content will be added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container">
+        <h2>All Users with Profits</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Profits</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="userProfits">
+            <!-- Dynamic content will be added here -->
+        </tbody>
+    </table>
+    </div>
+
+
+    <div class="container mt-4">
+    <h1>Admin Dashboard</h1>
+
+    <!-- Section for displaying all users' profits -->
+    <div>
+        <h4>All Users' Profits</h4>
+        <ul id="profitsList">
+            <!-- User profits will be injected here -->
+        </ul>
+        <button class="btn btn-primary" onclick="fetchAllUsersProfits()">Fetch Profits</button>
+    </div>
+
+    <!-- Section for increasing specific user's profit -->
+    <div>
+        <h4>Increase User's Profit</h4>
+        <form id="increaseProfitForm" onsubmit="event.preventDefault();">
+            <div class="form-group">
+                <label for="userId">User ID</label>
+                <input type="text" class="form-control" id="userId" required>
+            </div>
+            <div class="form-group">
+                <label for="profitAmount">Amount to Increase</label>
+                <input type="number" class="form-control" id="profitAmount" required>
+            </div>
+            <button type="button" class="btn btn-success" onclick="increaseUserProfit(document.getElementById('userId').value, document.getElementById('profitAmount').value)">Increase Profit</button>
+        </form>
+    </div>
+</div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <!-- Inline script for handling admin dashboard logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const depositRequests = document.getElementById('depositRequests');
+            const withdrawRequests = document.getElementById('withdrawRequests');
+            const allUsers = document.getElementById('allUsers');
+            const proofsOfPayment = document.getElementById('proofsOfPayment');
+
+            depositRequests.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
+            withdrawRequests.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
+            allUsers.innerHTML = '<tr><td colspan="3">Loading...</td></tr>';
+            proofsOfPayment.innerHTML = '<tr><td colspan="4">Loading...</td></tr>';
+
+            try {
+                // Fetch dashboard data
+                const response = await fetch('/api/admin/dashboard', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                console.log('Dashboard Data:', data); 
+
+                // Populate deposit requests
+                data.pendingDeposits.forEach(deposit => {
+                    depositRequests.innerHTML += `
+                        <tr>
+                            <td>${deposit.userId.name}</td>
+                            <td>$${deposit.amount}</td>
+                            <td>${deposit.plan || 'N/A'}</td>
+                            <td>${deposit.status}</td>
+                            <td>
+                                <button class="btn btn-success" onclick="approveDeposit('${deposit._id}')">Approve</button>
+                                <button class="btn btn-danger" onclick="rejectDeposit('${deposit._id}')">Reject</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                // Populate withdrawal requests
+                data.pendingWithdrawals.forEach(withdrawal => {
+                    withdrawRequests.innerHTML += `
+                        <tr>
+                            <td>${withdrawal.userId.name}</td>
+                            <td>$${withdrawal.amount}</td>
+                            <td>${withdrawal.walletAddress || 'N/A'}</td>
+                            <td>${withdrawal.status}</td>
+                            <td>
+                                <button class="btn btn-success" onclick="approveWithdrawal('${withdrawal._id}')">Approve</button>
+                                <button class="btn btn-danger" onclick="rejectWithdrawal('${withdrawal._id}')">Reject</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                // Populate all users
+                data.allUsers.forEach(user => {
+                    allUsers.innerHTML += `
+                        <tr>
+                            <td>${user.name}</td>
+                            <td>${user.email}</td>
+                            <td>$${user.balance}</td>
+                        </tr>
+                    `;
+                });
+
+                // Fetch proofs of payment
+                const proofsResponse = await fetch('/api/admin/proofs-of-payment', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                if (!proofsResponse.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const proofsData = await proofsResponse.json();
+
+                // Populate proofs of payment
+                proofsData.forEach(proof => {
+                    proofsOfPayment.innerHTML += `
+                        <tr>
+                            <td>${proof.userId.name}</td>
+                            <td>$${proof.amount}</td>
+                            <td><a href="${proof.proof}" target="_blank">View Proof</a></td>
+                            <td>${new Date(proof.createdAt).toLocaleDateString()}</td>
+                        </tr>
+                    `;
+                });
+            } catch (error) {
+                console.error('Error loading data:', error);
+                depositRequests.innerHTML = '<tr><td colspan="5">Error loading deposits</td></tr>';
+                withdrawRequests.innerHTML = '<tr><td colspan="5">Error loading withdrawals</td></tr>';
+                allUsers.innerHTML = '<tr><td colspan="3">Error loading users</td></tr>';
+                proofsOfPayment.innerHTML = '<tr><td colspan="4">Error loading proofs of payment</td></tr>';
+            }
+        });
+
+        function approveDeposit(id) {
+            fetch(`/api/admin/transactions/approve-deposit/${id}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (!response.ok) throw new Error('Failed to approve deposit');
+                return response.json();
+            }).then(data => {
+                console.log('Deposit approved:', data);
+                location.reload();
+            }).catch(err => console.error(err));
+        }
+
+        function rejectDeposit(id) {
+            // Implement rejectDeposit functionality
+        }
+
+        function approveWithdrawal(id) {
+    fetch(`/api/admin/transactions/approve-withdrawal/${id}`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+        }
+    }).then(response => {
+        if (!response.ok) throw new Error('Failed to approve withdrawal');
+        return response.json();
+    }).then(data => {
+        console.log('Withdrawal approved:', data);
+        location.reload(); // Refresh the page to update the withdrawal requests
+    }).catch(err => console.error(err));
+}
+
+
+function rejectWithdrawal(id) {
+    fetch(`/api/admin/transactions/reject-withdrawal/${id}`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+        }
+    }).then(response => {
+        if (!response.ok) throw new Error('Failed to reject withdrawal');
+        return response.json();
+    }).then(data => {
+        console.log('Withdrawal rejected:', data);
+        location.reload(); // Refresh the page to update the withdrawal requests
+    }).catch(err => console.error(err));
+}
+
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+    await fetchUsers();
+    await fetchAllUsers();
+});
+
+async function fetchUsers() {
+    try {
+        const response = await fetch('/api/admin/users', {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch users');
+        }
+
+        const users = await response.json();
+        const userSelect = document.getElementById('userId');
+
+        // Populate the select dropdown with users
+        users.forEach(user => {
+            const option = document.createElement('option');
+            option.value = user._id; // Use the correct property for user ID
+            option.textContent = user.name; // Use the correct property for user name
+            userSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        alert(error.message);
+    }
+}
+
+async function fetchAllUsers() {
+    const allUsers = document.getElementById('allUsers');
+    try {
+        const response = await fetch('/api/admin/users', {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch all users');
+        }
+
+        const users = await response.json();
+        users.forEach(user => {
+            allUsers.innerHTML += `
+                <tr>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>$${user.balance}</td>
+                </tr>
+            `;
+        });
+    } catch (error) {
+        console.error('Error loading all users:', error);
+        allUsers.innerHTML = '<tr><td colspan="3">Error loading users</td></tr>';
+    }
+}
+
+async function makeDeposit(event) {
+    event.preventDefault(); // Prevent form submission
+
+    const userId = document.getElementById('userId').value;
+    const amount = document.getElementById('amount').value;
+
+    try {
+        const response = await fetch(`/api/admin/deposit/${userId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ amount })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Error making deposit');
+        }
+
+        const transaction = await response.json();
+        alert(`Deposit of $${transaction.amount} made successfully to user ${userId}!`);
+        location.reload(); // Reload the page to update the user list
+    } catch (error) {
+        console.error('Error making deposit:', error);
+        alert(error.message);
+    }
+}
+
+    </script>
+    <script>
+        async function fetchUsersWithProfits() {
+    const userProfits = document.getElementById('userProfits');
+    try {
+        const response = await fetch('/api/admin/users/profits', {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch users');
+        }
+
+        const users = await response.json();
+        userProfits.innerHTML = ''; // Clear previous content
+
+        users.forEach(user => {
+            userProfits.innerHTML += `
+                <tr>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>$${user.profits}</td>
+                    <td>${user.profitPaused ? 'Paused' : 'Active'}</td>
+                    <td>
+                        <button class="btn btn-warning" onclick="pauseProfit('${user._id}')">
+                            ${user.profitPaused ? 'Resume Profit' : 'Pause Profit'}
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+    } catch (error) {
+        console.error('Error loading users with profits:', error);
+        userProfits.innerHTML = '<tr><td colspan="5">Error loading users</td></tr>';
+    }
+}
+
+async function pauseProfit(userId) {
+    try {
+        const response = await fetch(`/api/admin/users/${userId}/pause-profit`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to pause profit');
+        }
+
+        const data = await response.json();
+        alert(data.message); // Show the status message
+        fetchUsersWithProfits(); // Refresh the user list
+    } catch (error) {
+        console.error('Error pausing profit:', error);
+        alert(error.message);
+    }
+}
+
+// Call fetchUsersWithProfits on page load
+document.addEventListener('DOMContentLoaded', async () => {
+    await fetchUsersWithProfits();
+});
+    </script>
+
+<script>
+    async function fetchWithdrawRequests() {
+        const withdrawRequests = document.getElementById('withdrawRequests');
+        withdrawRequests.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
+
+        try {
+            const response = await fetch('/api/admin/withdraw-requests', {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            withdrawRequests.innerHTML = ''; // Clear loading text
+
+            data.pendingWithdrawals.forEach(withdrawal => {
+                withdrawRequests.innerHTML += `
+                    <tr>
+                        <td>${withdrawal.userId.name}</td>
+                        <td>$${withdrawal.amount}</td>
+                        <td>${withdrawal.walletAddress || 'N/A'}</td>
+                        <td>${withdrawal.status}</td>
+                        <td>
+                            <button class="btn btn-success" onclick="approveWithdrawal('${withdrawal._id}')">Approve</button>
+                            <button class="btn btn-danger" onclick="rejectWithdrawal('${withdrawal._id}')">Reject</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        } catch (error) {
+            console.error('Error loading withdrawals:', error);
+            withdrawRequests.innerHTML = '<tr><td colspan="5">Error loading withdrawals</td></tr>';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchWithdrawRequests();
+    });
+</script>
+
+</body>
+</html>

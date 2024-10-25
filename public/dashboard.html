@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Fintech App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<style> 
+body{
+   
+}
+/* Marquee styling */
+.marquee {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.marquee-content {
+    display: inline-block;
+    padding-left: 100%; /* Start off screen */
+    animation: marquee 30s linear infinite;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(-100%, 0);
+    }
+}
+</style>
+
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">SWINGIFY USER DASHBOARD</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+
+    <div class="container my-4">
+        <h2 class="text-center">Cryptocurrency Prices</h2>
+        <div class="marquee">
+            <div class="marquee-content" id="cryptoMarquee">
+                <!-- Cryptocurrency data will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container mt-4">
+        <h1>User Dashboard</h1>
+
+        <!-- User Details -->
+        <div class="mb-4">
+            <h4>Your Profile</h4>
+            <p><strong>Name:</strong> <span id="userName"></span></p>
+            <p><strong>Email:</strong> <span id="userEmail"></span></p>
+            <p><strong>Balance:</strong> $<span id="balance"></span></p>
+            <p><strong>Total Profits:</strong> $<span id="profits"></span></p>
+        </div>
+
+       
+        <!-- <div class="container mt-5">
+            <h1 class="mb-4">Your Referral Information</h1>
+            <div id="referralInfo" class="card p-4">
+                <h5 class="card-title">Referral Details</h5>
+                <p id="referralLink" class="card-text"></p>
+                <p id="referredBy" class="card-text"></p>
+                <p id="referralCount" class="card-text"></p>
+                <h6>Referred Users:</h6>
+                <ul id="referredUsersList" class="list-group mb-3"></ul>
+            </div>
+        </div> -->
+        
+        
+        <!-- Bootstrap Tabs for Deposit, Withdrawal, and Feedback -->
+        <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="deposit-tab" data-toggle="tab" href="#deposit" role="tab" aria-controls="deposit" aria-selected="true">Deposit</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="withdraw-tab" data-toggle="tab" href="#withdraw" role="tab" aria-controls="withdraw" aria-selected="false">Withdraw</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="transactions-tab" data-toggle="tab" href="#transactions" role="tab" aria-controls="transactions" aria-selected="false">Transaction History</a>
+            </li>
+        </ul>
+        
+        <div class="tab-content" id="dashboardTabContent">
+            <!-- Deposit Tab -->
+            <div class="tab-pane fade show active" id="deposit" role="tabpanel" aria-labelledby="deposit-tab">
+                <h4>Your Deposit History</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Approved At</th>
+                            <th>Proof of Payment</th>
+                        </tr>
+                    </thead>
+                    <tbody id="depositHistory">
+                        <!-- Deposit history will be injected here -->
+                    </tbody>
+                </table>
+                <h4>Deposit Money</h4>
+                <form id="depositForm">
+                    <div class="form-group">
+                        <label for="plan">Select Investment Plan</label>
+                        <select class="form-control" id="plan" required>
+                            <option value="" disabled selected>Select a plan</option>
+                            <option value="Plan A">Plan A - 10% Return</option>
+                            <option value="Plan B">Plan B - 15% Return</option>
+                            <option value="Plan C">Plan C - 20% Return</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="walletAddress">Select Wallet Address</label>
+                        <select class="form-control" id="walletAddress" required>
+                            <option value="" disabled selected>Select a wallet address</option>
+                            <option value="wallet_address_1">Wallet Address 1</option>
+                            <option value="wallet_address_2">Wallet Address 2</option>
+                        </select>
+                        <button type="button" class="btn btn-outline-secondary mt-2" onclick="copyWalletAddress()">Copy Address</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">Amount</label>
+                        <input type="number" class="form-control" id="amount" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="proof">Upload Proof of Payment</label>
+                        <input type="file" class="form-control-file" id="proof" name="proofOfPayment" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Deposit</button>
+                </form>
+            </div>
+            
+            <!-- Withdraw Tab -->
+            <div class="tab-pane fade" id="withdraw" role="tabpanel" aria-labelledby="withdraw-tab">
+                <h4>Withdraw Money</h4>
+                <form id="withdrawForm">
+                    <div class="form-group">
+                        <label for="withdrawAmount">Amount to Withdraw</label>
+                        <input type="number" class="form-control" id="withdrawAmount" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="withdrawAddress">Wallet Address</label>
+                        <input type="text" class="form-control" id="withdrawAddress" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Request Withdrawal</button>
+                </form>
+            </div>
+
+            <!-- Withdrawal history -->
+            <h4>Your Withdrawal History</h4>
+            <table class="table table-bordered" id="withdrawalHistoryTable">
+                <thead>
+                    <tr>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="withdrawalHistory">
+                    <!-- Withdrawal history will be injected here -->
+                </tbody>
+            </table>
+
+            <!-- Transactions Tab -->
+            <div class="tab-pane fade" id="transactions" role="tabpanel" aria-labelledby="transactions-tab">
+                <h4>Your Transactions</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Amount</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionHistory">
+                        <!-- Transaction history will be injected here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+       
+// let previousProfit = 0; // Initialize previous profit
+
+// Function to fetch user data from the server
+async function fetchUserData() {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        alert("User not authenticated, please login again.");
+        window.location.href = '/login.html'; // Redirect to login page if no token
+        return;
+    }
+
+    const response = await fetch('http://localhost:5000/api/users/me', {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (response.ok) {
+        const user = await response.json();
+
+        // Update the user details in the UI
+        document.getElementById('userName').textContent = user.name;
+        document.getElementById('userEmail').textContent = user.email;
+        document.getElementById('balance').textContent = user.balance.toFixed(2);
+        document.getElementById('profits').textContent = user.profits.toFixed(2);
+
+        // Check if profit has increased
+        if (user.profits > previousProfit) {
+            alert(`Your profits have increased! New profit: $${user.profits.toFixed(2)}`);
+        }
+
+        // Update previous profit for comparison in the next fetch
+        previousProfit = user.profits;
+
+    } else if (response.status === 403) {
+        alert("Forbidden: Invalid token or session expired.");
+        localStorage.removeItem('token');
+        window.location.href = '/login.html';
+    } else {
+        alert('Failed to fetch user data');
+    }
+}
+
+// Function to fetch user data from the server
+async function fetchUserData() {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        alert("User not authenticated, please login again.");
+        window.location.href = '/login.html'; // Redirect to login page if no token
+        return;
+    }
+
+    const response = await fetch('http://localhost:5000/api/users/me', {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (response.ok) {
+        const user = await response.json();
+
+        // Update the user details in the UI
+        document.getElementById('userName').textContent = user.name;
+        document.getElementById('userEmail').textContent = user.email;
+        document.getElementById('balance').textContent = user.balance.toFixed(2);
+        document.getElementById('profits').textContent = user.profits.toFixed(2);
+
+        // Check if profit has increased
+        if (user.profits > previousProfit) {
+            alert(`Your profits have increased! New profit: $${user.profits.toFixed(2)}`);
+        }
+
+        // Update previous profit for comparison in the next fetch
+        previousProfit = user.profits;
+
+    } else if (response.status === 403) {
+        alert("Forbidden: Invalid token or session expired.");
+        localStorage.removeItem('token');
+        window.location.href = '/login.html';
+    } else {
+        alert('Failed to fetch user data');
+    }
+}
+
+// WebSocket connection for real-time profit updates
+const socket = new WebSocket('ws://localhost:5000');
+
+socket.onopen = function () {
+    console.log('Connected to WebSocket server');
+};
+
+socket.onmessage = function (event) {
+    const data = JSON.parse(event.data);
+    
+    // Assuming server sends an object like { profits: newProfitAmount }
+    const newProfit = data.profits;
+
+    // Update profits in the UI
+    document.getElementById('profits').textContent = newProfit.toFixed(2);
+
+    // Notify user about profit increment
+    if (newProfit > previousProfit) {
+        alert(`Your profits have increased! New profit: $${newProfit.toFixed(2)}`);
+    }
+    
+    // Update previous profit for comparison
+    previousProfit = newProfit;
+};
+
+socket.onclose = function () {
+    console.log('Disconnected from WebSocket server');
+};
+
+// Fetch user data every 30 seconds (adjust as necessary)
+setInterval(fetchUserData, 30000);
+
+// Initial fetch to display user data on page load
+fetchUserData();
+
+
+
+        async function loadDepositHistory() {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/api/transactions/deposit', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+    
+            if (response.ok) {
+                const deposits = await response.json();
+                const depositHistory = document.getElementById('depositHistory');
+                depositHistory.innerHTML = '';
+    
+                deposits.forEach(deposit => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${deposit.amount.toFixed(2)}</td>
+                        <td>${deposit.status}</td>
+                        <td>${deposit.approvedAt || 'Pending'}</td>
+                        <td><a href="${deposit.proof}" target="_blank">View Proof</a></td>
+                    `;
+                    depositHistory.appendChild(tr);
+                });
+            } else {
+                alert('Failed to load deposit history');
+            }
+        }
+    
+        async function loadTransactionHistory() {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`/api/transactions/${localStorage.getItem('userId')}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+    
+            if (response.ok) {
+                const transactions = await response.json();
+                const transactionHistory = document.getElementById('transactionHistory');
+                transactionHistory.innerHTML = '';
+    
+                transactions.forEach(transaction => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${transaction.amount.toFixed(2)}</td>
+                        <td>${transaction.type}</td>
+                        <td>${new Date(transaction.createdAt).toLocaleString()}</td>
+                        <td>${transaction.status}</td>
+                    `;
+                    transactionHistory.appendChild(tr);
+                });
+            } else {
+                alert('Failed to load transaction history');
+            }
+        }
+    
+        document.getElementById('depositForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+    
+            const amount = document.getElementById('amount').value;
+            const plan = document.getElementById('plan').value;
+            const walletAddress = document.getElementById('walletAddress').value;
+            const proof = document.getElementById('proof').files[0];
+    
+            const formData = new FormData();
+            formData.append('amount', amount);
+            formData.append('plan', plan);
+            formData.append('walletAddress', walletAddress);
+            formData.append('proofOfPayment', proof);
+    
+            const response = await fetch('/api/transactions/deposit', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+                body: formData,
+            });
+    
+            if (response.ok) {
+                alert('Deposit submitted successfully');
+                loadDepositHistory();
+            } else {
+                alert('Failed to submit deposit');
+            }
+        });
+    
+        document.getElementById('withdrawForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+    
+            const amount = document.getElementById('withdrawAmount').value;
+            const address = document.getElementById('withdrawAddress').value;
+    
+            const response = await fetch('/api/transactions/withdraw', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ amount, address }),
+            });
+    
+            if (response.ok) {
+                alert('Withdrawal request submitted successfully');
+            } else {
+                alert('Failed to submit withdrawal request');
+            }
+        });
+    
+        function copyWalletAddress() {
+            const walletAddress = document.getElementById('walletAddress').value;
+            navigator.clipboard.writeText(walletAddress).then(() => {
+                alert('Wallet address copied');
+            });
+        }
+    
+        fetchUserData();
+    </script>
+
+<script>
+    const cryptocurrencies = [
+        { name: "Bitcoin", symbol: "BTC", exchange: "Binance", price: "0" },
+        { name: "Ethereum", symbol: "ETH", exchange: "Coinbase", price: "0" },
+        { name: "Ripple", symbol: "XRP", exchange: "Kraken", price: "0" },
+        { name: "Litecoin", symbol: "LTC", exchange: "Bittrex", price: "0" },
+        { name: "Cardano", symbol: "ADA", exchange: "Binance", price: "0" },
+        { name: "Polkadot", symbol: "DOT", exchange: "Huobi", price: "0" },
+        { name: "Chainlink", symbol: "LINK", exchange: "Binance", price: "0" },
+        { name: "Bitcoin Cash", symbol: "BCH", exchange: "Kraken", price: "0" },
+        { name: "Stellar", symbol: "XLM", exchange: "Coinbase", price: "0" },
+        { name: "Dogecoin", symbol: "DOGE", exchange: "Binance", price: "0" },
+        { name: "Solana", symbol: "SOL", exchange: "Coinbase", price: "0" },
+        { name: "Uniswap", symbol: "UNI", exchange: "Binance", price: "0" },
+        { name: "Ethereum Classic", symbol: "ETC", exchange: "Kraken", price: "0" },
+        { name: "Aave", symbol: "AAVE", exchange: "Binance", price: "0" },
+        { name: "Polygon", symbol: "MATIC", exchange: "Coinbase", price: "0" },
+        { name: "VeChain", symbol: "VET", exchange: "Bittrex", price: "0" }
+    ];
+
+    async function fetchCryptoPrices() {
+        // Fetching crypto prices from an API (replace this with your own API if needed)
+        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ripple,litecoin,cardano,polkadot,chainlink,bitcoin-cash,stellar,dogecoin,solana,uniswap,ethereum-classic,aave,polygon,vechain&vs_currencies=usd');
+        const data = await response.json();
+
+        // Update prices
+        cryptocurrencies.forEach(crypto => {
+            if (data[crypto.name.toLowerCase()]) {
+                crypto.price = data[crypto.name.toLowerCase()].usd.toFixed(2);
+            }
+        });
+
+        // Update marquee content
+        updateMarqueeContent();
+    }
+
+    function updateMarqueeContent() {
+        const marqueeContent = document.getElementById('cryptoMarquee');
+        marqueeContent.innerHTML = cryptocurrencies.map(crypto => {
+            return `<span class="mx-3">${crypto.name} (${crypto.symbol}) - $${crypto.price} on ${crypto.exchange}</span>`;
+        }).join('');
+    }
+
+    // Initial fetch and interval for updates
+    fetchCryptoPrices();
+    setInterval(fetchCryptoPrices, 60000); // Update every minute
+</script>
+
+<script>
+    // Function to load transaction history
+async function loadTransactionHistory() {
+    const token = localStorage.getItem('token');
+    const response = await fetch('http://localhost:5000/api/transactions/history', {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (response.ok) {
+        const transactions = await response.json();
+        const transactionHistory = document.getElementById('transactionHistory');
+        transactionHistory.innerHTML = '';
+
+        transactions.forEach(transaction => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${transaction.amount.toFixed(2)}</td>
+                <td>${transaction.type}</td>
+                <td>${new Date(transaction.createdAt).toLocaleString()}</td>
+                <td>${transaction.status}</td>
+            `;
+            transactionHistory.appendChild(tr);
+        });
+    } else {
+        alert('Failed to load transaction history');
+    }
+}
+
+// Add event listener to load transaction history when the Transactions tab is shown
+document.getElementById('transactions-tab').addEventListener('click', loadTransactionHistory);
+
+// Call the loadTransactionHistory function when the transactions tab is active
+$('#transactions-tab').on('shown.bs.tab', function () {
+    loadTransactionHistory();
+});
+
+</script>
+
+<script>
+    // Function to load deposit history from the server
+async function loadDepositHistory() {
+    const token = localStorage.getItem('token');
+    
+    // Fetch deposit history using the correct API endpoint
+    const response = await fetch('/api/transactions/deposit-history', {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    if (response.ok) {
+        const deposits = await response.json();
+        const depositHistory = document.getElementById('depositHistory');
+        depositHistory.innerHTML = '';
+
+        deposits.forEach(deposit => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${deposit.amount.toFixed(2)}</td>
+                <td>${deposit.status}</td>
+                <td>${new Date(deposit.createdAt).toLocaleString()}</td>
+                <td><a href="${deposit.proofOfPayment}" target="_blank">View Proof</a></td>
+            `;
+            depositHistory.appendChild(tr);
+        });
+    } else {
+        const depositHistory = document.getElementById('depositHistory');
+        depositHistory.innerHTML = '<tr><td colspan="4" class="text-center">No deposit history found.</td></tr>';
+    }
+}
+
+// Call loadDepositHistory to fetch and display deposits when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    loadDepositHistory();
+});
+
+</script>
+
+<script>
+    // Function to load withdrawal history
+async function loadWithdrawalHistory() {
+    const token = localStorage.getItem('token');
+
+    const response = await fetch('http://localhost:5000/api/transactions/withdrawal-history', {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (response.ok) {
+        const withdrawals = await response.json();
+        const withdrawalHistory = document.getElementById('withdrawalHistory');
+        withdrawalHistory.innerHTML = '';
+
+        withdrawals.forEach(withdrawal => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${withdrawal.amount.toFixed(2)}</td>
+                <td>${withdrawal.status}</td>
+                <td>${new Date(withdrawal.createdAt).toLocaleString()}</td>
+            `;
+            withdrawalHistory.appendChild(tr);
+        });
+    } else if (response.status === 404) {
+        document.getElementById('withdrawalHistory').innerHTML = `<tr><td colspan="3" class="text-center">No withdrawal history found.</td></tr>`;
+    } else {
+        alert('Failed to fetch withdrawal history');
+    }
+}
+
+// Add event listener to load withdrawal history when the tab is shown
+document.getElementById('withdraw-tab').addEventListener('click', loadWithdrawalHistory);
+
+// Load withdrawal history on page load
+loadWithdrawalHistory();
+
+</script>
+
+
+<script>
+   
+   // Function to fetch referral information
+async function fetchReferralInfo() {
+    try {
+        // Log the token for debugging
+        console.log('Authorization Token:', localStorage.getItem('token'));
+
+        const response = await fetch('/api/users/referral-info', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}` // Assuming token is stored in localStorage
+            }
+        });
+
+        // Log the response for debugging
+        console.log('Response Status:', response.status);
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('Referral Info Data:', data); // Log the data returned from the API
+
+        // Call the function to display the referral information
+        displayReferralInfo(data);
+    } catch (error) {
+        console.error('Error fetching referral info:', error);
+        document.getElementById('referralInfo').innerHTML = '<p class="text-danger">Error fetching referral information.</p>';
+    }
+}
+
+// Function to display referral information
+function displayReferralInfo(data) {
+    document.getElementById('referralLink').innerText = `Referral Link: ${data.referralLink}`;
+    document.getElementById('referredBy').innerText = `Referred By: ${data.referredBy || 'N/A'}`;
+    document.getElementById('referralCount').innerText = `Referral Count: ${data.referralCount}`;
+
+    const referredUsersList = document.getElementById('referredUsersList');
+    referredUsersList.innerHTML = ''; // Clear previous entries
+
+    if (data.referredUsers && data.referredUsers.length > 0) {
+        data.referredUsers.forEach(user => {
+            const li = document.createElement('li');
+            li.className = 'list-group-item';
+            li.innerText = `${user.name} - ${user.email}`;
+            referredUsersList.appendChild(li);
+        });
+    } else {
+        const li = document.createElement('li');
+        li.className = 'list-group-item';
+        li.innerText = 'No referred users.';
+        referredUsersList.appendChild(li);
+    }
+}
+
+// Fetch referral info when the page loads
+document.addEventListener('DOMContentLoaded', fetchReferralInfo);
+
+
+</script>
+
+
+
+</body>
+</html>

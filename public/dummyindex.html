@@ -1,0 +1,630 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWINGIFY</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            overflow-x: hidden;
+            background-color: #000; 
+            color: #fff; 
+        }
+
+       
+        h1 {
+            font-size: 3rem;
+            animation: fadeIn 2s ease-in-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        
+        .nav-link {
+            position: relative;
+            display: inline-block;
+            transition: color 0.3s ease;
+            color: #fff;
+        }
+
+        .nav-link::before {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background-color: #007bff;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .nav-link:hover::before {
+            width: 100%;
+            left: 0;
+        }
+
+        .nav-link:hover {
+            color: #007bff;
+        }
+
+       
+        .svg-container {
+            margin: 50px auto;
+            text-align: center;
+            animation: slideUp 2s ease-in-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .svg-container svg {
+            width: 300px;
+            height: 300px;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw 4s ease forwards;
+        }
+
+        @keyframes draw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        
+        .btn-custom {
+            position: relative;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            overflow: hidden;
+            transition: background-color 0.4s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-custom::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            top: 0;
+            left: -100%;
+            transition: left 0.5s ease;
+            z-index: 0;
+        }
+
+        .btn-custom:hover::before {
+            left: 0;
+        }
+
+        .btn-custom span {
+            position: relative;
+            z-index: 1;
+        }
+
+        
+        .features-section {
+            background-color: #1a1a1a; /* Darker background */
+            padding: 60px 0;
+            animation: fadeIn 3s ease-in-out forwards;
+        }
+
+        .features-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-align: center;
+            animation: bounceIn 1.5s ease forwards;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            60% { transform: scale(1.1); opacity: 0.9; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .features-section .feature {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .features-section .feature img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+        }
+
+       
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feature {
+            opacity: 0;
+            animation: fadeInUp 1s forwards;
+            animation-delay: 0.3s;
+        }
+
+    
+        .btn-interactive:hover {
+            animation: moveButton 1s ease-in-out forwards;
+        }
+
+        @keyframes moveButton {
+            0% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+            100% { transform: translateX(0); }
+        }
+
+       
+        .cta-section {
+            padding: 80px 0;
+            background-color: #111;
+            text-align: center;
+            color: #fff;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            animation: fadeIn 2s ease-in-out forwards;
+            opacity: 0;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInUp 2s ease forwards;
+        }
+
+        .cta-section .btn-primary {
+            padding: 15px 30px;
+            background-color: #007bff;
+            border: none;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-section .btn-primary:hover {
+            transform: scale(1.1);
+        }
+
+        
+
+        
+
+        
+
+        
+
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <a class="navbar-brand text-white" href="#">SWINGIFY</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto text-white">
+                <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
+                <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Welcome to SWINGIFY</h1>
+        <p>Your financial management made easy.</p>
+        <button class="btn-custom"><span>Get Started</span></button>
+    </div>
+
+    <div class="svg-container">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="40" stroke="#007bff" stroke-width="4" fill="none"/>
+            <path d="M30 50 Q50 20, 70 50 T50 80 Z" stroke="#007bff" stroke-width="2" fill="none"/>
+        </svg>
+    </div>
+
+    
+    <section class="features-section">
+        <div class="container">
+            <h2>Our Features</h2>
+            <div class="row">
+                <div class="col-md-4 feature">
+                    <img src="https://img.icons8.com/color/100/000000/money-bag.png" alt="Money Bag Icon">
+                    <h4>Easy Transactions</h4>
+                    <p>Transfer money with ease and security at the click of a button.</p>
+                </div>
+                <div class="col-md-4 feature">
+                    <img src="https://img.icons8.com/color/100/000000/bar-chart.png" alt="Chart Icon">
+                    <h4>Financial Insights</h4>
+                    <p>Get detailed insights into your financial health with smart analytics.</p>
+                </div>
+                <div class="col-md-4 feature">
+                    <img src="https://img.icons8.com/color/100/000000/customer-support.png" alt="Support Icon">
+                    <h4>24/7 Support</h4>
+                    <p>We are here to help you with any financial queries anytime.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Take Control of Your Finances?</h2>
+            <p>Join us today and enjoy the best financial management experience.</p>
+            <button class="btn btn-primary">Sign Up Now</button>
+        </div>
+    </section>
+
+    
+
+   
+<section class="testimonials-section">
+    <div class="container">
+        <h2 class="text-center">What Our Customers Say</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <blockquote class="blockquote text-center">
+                    <p>"Fintech App has revolutionized how I manage my finances. It's seamless and secure!"</p>
+                    <footer class="blockquote-footer">Emily Johnson</footer>
+                </blockquote>
+            </div>
+            <div class="col-md-4">
+                <blockquote class="blockquote text-center">
+                    <p>"The analytics feature helped me better understand my spending habits."</p>
+                    <footer class="blockquote-footer">Michael Lee</footer>
+                </blockquote>
+            </div>
+            <div class="col-md-4">
+                <blockquote class="blockquote text-center">
+                    <p>"Customer support is outstanding! They resolved my issue within minutes."</p>
+                    <footer class="blockquote-footer">Sarah Thompson</footer>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+<footer class="bg-dark text-white text-center py-3">
+    <p>&copy; 2024 Fintech App. All rights reserved.</p>
+</footer>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWINGIFY</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            overflow-x: hidden;
+            background-color: #000; 
+            color: #fff; 
+        }
+
+        h1 {
+            font-size: 3rem;
+            animation: fadeIn 2s ease-in-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+            color: #fff;
+        }
+
+        .nav-link::before {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background-color: #007bff;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover::before {
+            width: 100%;
+            left: 0;
+        }
+
+        .nav-link:hover {
+            color: #007bff;
+        }
+
+        .svg-container {
+            margin: 50px auto;
+            text-align: center;
+            animation: slideUp 2s ease-in-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .svg-container svg {
+            width: 300px;
+            height: 300px;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw 4s ease forwards;
+        }
+
+        @keyframes draw {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.4s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+
+        .features-section {
+            background-color: #1a1a1a;
+            padding: 60px 0;
+            animation: fadeIn 3s ease-in-out forwards;
+        }
+
+        .features-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-align: center;
+            animation: bounceIn 1.5s ease forwards;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            60% { transform: scale(1.1); opacity: 0.9; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .features-section .feature img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+        }
+
+        .cta-section {
+            padding: 80px 0;
+            background-color: #111;
+            text-align: center;
+            color: #fff;
+        }
+
+        .cta-section .btn-primary:hover {
+            transform: scale(1.1);
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            padding: 60px 0;
+            background-color: #222;
+        }
+
+        .pricing-section h2 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .pricing-table {
+            background-color: #333;
+            padding: 30px;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .pricing-table h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .pricing-table .price {
+            font-size: 3rem;
+            margin-bottom: 30px;
+        }
+
+        /* Social Media Buttons */
+        .social-buttons a {
+            color: #fff;
+            font-size: 24px;
+            margin: 0 10px;
+            transition: transform 0.3s;
+        }
+
+        .social-buttons a:hover {
+            transform: scale(1.2);
+        }
+
+        footer {
+            padding: 20px 0;
+            background-color: #111;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <a class="navbar-brand text-white" href="#">SWINGIFY</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
+                <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="container">
+        <h1>Welcome to SWINGIFY</h1>
+        <p>Your financial management made easy.</p>
+        <button class="btn-custom"><span>Get Started</span></button>
+    </div>
+
+    <!-- SVG Animation -->
+    <div class="svg-container">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="40" stroke="#007bff" stroke-width="4" fill="none"/>
+            <path d="M30 50 Q50 20, 70 50 T50 80 Z" stroke="#007bff" stroke-width="2" fill="none"/>
+        </svg>
+    </div>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2>Our Features</h2>
+            <div class="row">
+                <div class="col-md-4 feature">
+                    <img src="https://img.icons8.com/color/100/000000/money-bag.png" alt="Money Bag Icon">
+                    <h4>Easy Transactions</h4>
+                    <p>Transfer money with ease and security at the click of a button.</p>
+                </div>
+                <div class="col-md-4 feature">
+                    <img src="https://img.icons8.com/color/100/000000/bar-chart.png" alt="Chart Icon">
+                    <h4>Financial Insights</h4>
+                    <p>Get detailed insights into your financial health with smart analytics.</p>
+                </div>
+                <div class="col-md-4 feature">
+                    <img src="https://img.icons8.com/color/100/000000/customer-support.png" alt="Support Icon">
+                    <h4>24/7 Support</h4>
+                    <p>We are here to help you with any financial queries anytime.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section">
+        <div class="container">
+            <h2>Pricing Plans</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="pricing-table text-center">
+                        <h3>Basic</h3>
+                        <p class="price">$10/mo</p>
+                        <p>Essential features to manage your finances</p>
+                        <button class="btn btn-outline-primary">Choose Plan</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="pricing-table text-center">
+                        <h3>Premium</h3>
+                        <p class="price">$30/mo</p>
+                        <p>Advanced features with additional insights</p>
+                        <button class="btn btn-outline-primary">Choose Plan</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="pricing-table text-center">
+                        <h3>Enterprise</h3>
+                        <p class="price">$50/mo</p>
+                        <p>Full suite for enterprise-level management</p>
+                        <button class="btn btn-outline-primary">Choose Plan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call-to-Action Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Take Control of Your Finances?</h2>
+            <p>Join us today and enjoy the best financial management experience.</p>
+            <button class="btn btn-primary">Join Now</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <div class="social-buttons">
+                <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="https://dev.to" target="_blank"><i class="fab fa-dev"></i></a>
+            </div>
+            <p>&copy; 2024 SWINGIFY. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>
