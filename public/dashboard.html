@@ -69,20 +69,7 @@ body{
             <p><strong>Balance:</strong> $<span id="balance"></span></p>
             <p><strong>Total Profits:</strong> $<span id="profits"></span></p>
         </div>
-
-       
-        <!-- <div class="container mt-5">
-            <h1 class="mb-4">Your Referral Information</h1>
-            <div id="referralInfo" class="card p-4">
-                <h5 class="card-title">Referral Details</h5>
-                <p id="referralLink" class="card-text"></p>
-                <p id="referredBy" class="card-text"></p>
-                <p id="referralCount" class="card-text"></p>
-                <h6>Referred Users:</h6>
-                <ul id="referredUsersList" class="list-group mb-3"></ul>
-            </div>
-        </div> -->
-        
+ 
         
         <!-- Bootstrap Tabs for Deposit, Withdrawal, and Feedback -->
         <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
@@ -215,7 +202,7 @@ async function fetchUserData() {
         return;
     }
 
-    const response = await fetch('http://localhost:5000/api/users/me', {
+    const response = await fetch('/api/users/me', {
         headers: {
             'Authorization': `Bearer ${token}`,
         },
@@ -257,7 +244,7 @@ async function fetchUserData() {
         return;
     }
 
-    const response = await fetch('http://localhost:5000/api/users/me', {
+    const response = await fetch('/api/users/me', {
         headers: {
             'Authorization': `Bearer ${token}`,
         },
