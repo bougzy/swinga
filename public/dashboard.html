@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<style> 
+<!-- <style> 
 body{
    
 }
@@ -39,7 +39,9 @@ body{
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">SWINGIFY USER DASHBOARD</a>
+        <span>
+            <img src="images/eagle.jpeg" alt="" style="width: 50px;">
+          </span>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item"><a class="nav-link" href="index.html">Logout</a></li>
@@ -52,7 +54,7 @@ body{
         <h2 class="text-center">Cryptocurrency Prices</h2>
         <div class="marquee">
             <div class="marquee-content" id="cryptoMarquee">
-                <!-- Cryptocurrency data will be inserted here -->
+                Cryptocurrency data will be inserted here
             </div>
         </div>
     </div>
@@ -61,7 +63,7 @@ body{
     <div class="container mt-4">
         <h1>User Dashboard</h1>
 
-        <!-- User Details -->
+        User Details
         <div class="mb-4">
             <h4>Your Profile</h4>
             <p><strong>Name:</strong> <span id="userName"></span></p>
@@ -71,7 +73,7 @@ body{
         </div>
  
         
-        <!-- Bootstrap Tabs for Deposit, Withdrawal, and Feedback -->
+        Bootstrap Tabs for Deposit, Withdrawal, and Feedback
         <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="deposit-tab" data-toggle="tab" href="#deposit" role="tab" aria-controls="deposit" aria-selected="true">Deposit</a>
@@ -85,10 +87,229 @@ body{
         </ul>
         
         <div class="tab-content" id="dashboardTabContent">
-            <!-- Deposit Tab -->
+            Deposit Tab
             <div class="tab-pane fade show active" id="deposit" role="tabpanel" aria-labelledby="deposit-tab">
                 <h4>Your Deposit History</h4>
                 <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Approved At</th>
+                            <th>Proof of Payment</th>
+                        </tr>
+                    </thead>
+                    <tbody id="depositHistory">
+                        Deposit history will be injected here
+                    </tbody>
+                </table>
+                <h4>Deposit Money</h4>
+                <form id="depositForm">
+                    <div class="form-group">
+                        <label for="plan">Select Investment Plan</label>
+                        <select class="form-control" id="plan" required>
+                            <option value="" disabled selected>Select a plan</option>
+                            <option value="Plan A">Basic Plan - 30% Return</option>
+                            <option value="Plan B">Standard Plan - 60% Return</option>
+                            <option value="Plan C">Premium Plan - 10% Return</option>
+                            <option value="Plan C">Joint Plan - 100% Return</option>
+                        </select> 
+                    </div>
+                    <div class="form-group">
+                        <label for="walletAddress">Select Wallet Address</label>
+                        <select class="form-control" id="walletAddress" required>
+                            <option value="" disabled selected>Select a wallet address</option>
+                            <option value="3KxtE5dxYF1GU1D9tJzovvyrCNe721ka2x">Bitcoin (3KxtE5dxYF1GU1D9tJzovvyrCNe721ka2x)</option>
+                            <option value="0x4d1bb3dfb6a9cd62131d00445b445b5e7d279291">Ethereum (0x4d1bb3dfb6a9cd62131d00445b445b5e7d279291)</option>
+                            <option value="TYo9zBCg3oGZEZ46DDYub2YiCWeLLuQZUv">Tron (TYo9zBCg3oGZEZ46DDYub2YiCWeLLuQZUv)</option>
+                        </select>
+                        <button type="button" class="btn btn-outline-secondary mt-2" onclick="copyWalletAddress()">Copy Address</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">Amount</label>
+                        <input type="number" class="form-control" id="amount" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="proof">Upload Proof of Payment</label>
+                        <input type="file" class="form-control-file" id="proof" name="proofOfPayment" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Deposit</button>
+                </form>
+            </div>
+            
+            Withdraw Tab
+            <div class="tab-pane fade" id="withdraw" role="tabpanel" aria-labelledby="withdraw-tab">
+                <h4>Withdraw Money</h4>
+                <form id="withdrawForm">
+                    <div class="form-group">
+                        <label for="withdrawAmount">Amount to Withdraw</label>
+                        <input type="number" class="form-control" id="withdrawAmount" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="withdrawAddress">Wallet Address</label>
+                        <input type="text" class="form-control" id="withdrawAddress" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Request Withdrawal</button>
+                </form>
+            </div>
+
+            Withdrawal history
+            <h4>Your Withdrawal History</h4>
+            <table class="table table-bordered" id="withdrawalHistoryTable">
+                <thead>
+                    <tr>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="withdrawalHistory">
+                    Withdrawal history will be injected here
+                </tbody>
+            </table>
+
+            Transactions Tab
+            <div class="tab-pane fade" id="transactions" role="tabpanel" aria-labelledby="transactions-tab">
+                <h4>Your Transactions</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Amount</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionHistory">
+                        Transaction history will be injected here
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> -->
+
+
+    <style>
+        body {
+            background-color: #0e263d;
+            color: #e9ecef;
+        }
+        .marquee {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #060c13;
+            padding: 10px 0;
+        }
+        .marquee-content {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 30s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-info">
+        <span class="fe-bold text-primary bg-dark">
+            Swingify
+            <!-- <img src="images/eagle.jpeg" alt="Logo" style="width: 50px;"> -->
+        </span>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item text-white"><a class="nav-link text-white" href="index.html">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <h2 class="text-center">Cryptocurrency Prices</h2>
+        <div class="marquee">
+            <div class="marquee-content" id="cryptoMarquee">
+                <!-- Cryptocurrency data will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="container mt-4">
+        <h1>User Dashboard</h1>
+
+        User Details
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Your Profile</h4>
+                <p><strong>Name:</strong> <span id="userName"></span></p>
+                <p><strong>Email:</strong> <span id="userEmail"></span></p>
+                <p><strong>Balance:</strong> $<span id="balance"></span></p>
+                <p><strong>Total Profits:</strong> $<span id="profits"></span></p>
+            </div>
+        </div> -->
+
+        <div class="container mt-4">
+            <h1>User Dashboard</h1>
+        
+            <!-- User Details -->
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card mb-3 bg-info border-primary rounded">
+                        <div class="card-body text-white fw-bold">
+                            <h5 class="card-title">Name</h5>
+                            <p class="card-text"><span id="userName"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card mb-3 bg-info border-primary rounded">
+                        <div class="card-body text-white fw-bold">
+                            <h5 class="card-title">Email</h5>
+                            <p class="card-text"><span id="userEmail"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card mb-3 bg-info border-primary rounded">
+                        <div class="card-body text-white fw-bold">
+                            <h5 class="card-title">Balance</h5>
+                            <p class="card-text">$<span id="balance"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card mb-3 bg-info border-primary rounded">
+                        <div class="card-body text-white fw-bold">
+                            <h5 class="card-title">Total Profits</h5>
+                            <p class="card-text">$<span id="profits"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+
+        <!-- Bootstrap Tabs for Deposit, Withdrawal, and Feedback -->
+        <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="deposit-tab" data-toggle="tab" href="#deposit" role="tab" aria-controls="deposit" aria-selected="true">Deposit</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="withdraw-tab" data-toggle="tab" href="#withdraw" role="tab" aria-controls="withdraw" aria-selected="false">Withdraw</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="transactions-tab" data-toggle="tab" href="#transactions" role="tab" aria-controls="transactions" aria-selected="false">Transaction History</a>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="dashboardTabContent">
+            <!-- Deposit Tab -->
+            <div class="tab-pane fade show active" id="deposit" role="tabpanel" aria-labelledby="deposit-tab">
+                <h4>Your Deposit History</h4>
+                <table class="table table-striped table-bordered text-white">
                     <thead>
                         <tr>
                             <th>Amount</th>
@@ -107,17 +328,19 @@ body{
                         <label for="plan">Select Investment Plan</label>
                         <select class="form-control" id="plan" required>
                             <option value="" disabled selected>Select a plan</option>
-                            <option value="Plan A">Plan A - 10% Return</option>
-                            <option value="Plan B">Plan B - 15% Return</option>
-                            <option value="Plan C">Plan C - 20% Return</option>
+                            <option value="Plan A">Basic Plan - 30% Return</option>
+                            <option value="Plan B">Standard Plan - 60% Return</option>
+                            <option value="Plan C">Premium Plan - 10% Return</option>
+                            <option value="Plan C">Joint Plan - 100% Return</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="walletAddress">Select Wallet Address</label>
                         <select class="form-control" id="walletAddress" required>
                             <option value="" disabled selected>Select a wallet address</option>
-                            <option value="wallet_address_1">Wallet Address 1</option>
-                            <option value="wallet_address_2">Wallet Address 2</option>
+                            <option value="3KxtE5dxYF1GU1D9tJzovvyrCNe721ka2x">Bitcoin (3KxtE5dxYF1GU1D9tJzovvyrCNe721ka2x)</option>
+                            <option value="0x4d1bb3dfb6a9cd62131d00445b445b5e7d279291">Ethereum (0x4d1bb3dfb6a9cd62131d00445b445b5e7d279291)</option>
+                            <option value="TYo9zBCg3oGZEZ46DDYub2YiCWeLLuQZUv">Tron (TYo9zBCg3oGZEZ46DDYub2YiCWeLLuQZUv)</option>
                         </select>
                         <button type="button" class="btn btn-outline-secondary mt-2" onclick="copyWalletAddress()">Copy Address</button>
                     </div>
@@ -132,7 +355,7 @@ body{
                     <button type="submit" class="btn btn-primary">Submit Deposit</button>
                 </form>
             </div>
-            
+
             <!-- Withdraw Tab -->
             <div class="tab-pane fade" id="withdraw" role="tabpanel" aria-labelledby="withdraw-tab">
                 <h4>Withdraw Money</h4>
@@ -151,7 +374,7 @@ body{
 
             <!-- Withdrawal history -->
             <h4>Your Withdrawal History</h4>
-            <table class="table table-bordered" id="withdrawalHistoryTable">
+            <table class="table table-striped table-bordered text-white" id="withdrawalHistoryTable">
                 <thead>
                     <tr>
                         <th>Amount</th>
@@ -167,7 +390,7 @@ body{
             <!-- Transactions Tab -->
             <div class="tab-pane fade" id="transactions" role="tabpanel" aria-labelledby="transactions-tab">
                 <h4>Your Transactions</h4>
-                <table class="table table-bordered">
+                <table class="table table-striped table-bordered text-white">
                     <thead>
                         <tr>
                             <th>Amount</th>
@@ -183,6 +406,7 @@ body{
             </div>
         </div>
     </div>
+
     
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
@@ -328,11 +552,17 @@ fetchUserData();
     
                 deposits.forEach(deposit => {
                     const tr = document.createElement('tr');
+                    // tr.innerHTML = `
+                    //     <td>${deposit.amount.toFixed(2)}</td>
+                    //     <td>${deposit.status}</td>
+                    //     <td>${deposit.approvedAt || 'Pending'}</td>
+                    //     <td><a href="${deposit.proof}" target="_blank">View Proof</a></td>
+                    // `;
                     tr.innerHTML = `
                         <td>${deposit.amount.toFixed(2)}</td>
                         <td>${deposit.status}</td>
-                        <td>${deposit.approvedAt || 'Pending'}</td>
-                        <td><a href="${deposit.proof}" target="_blank">View Proof</a></td>
+                        <td>${new Date(deposit.createdAt).toLocaleString()}</td>
+                        <td><a href="/${deposit.proof}" target="_blank">View Proof</a></td>
                     `;
                     depositHistory.appendChild(tr);
                 });
@@ -542,7 +772,7 @@ async function loadDepositHistory() {
                 <td>${deposit.amount.toFixed(2)}</td>
                 <td>${deposit.status}</td>
                 <td>${new Date(deposit.createdAt).toLocaleString()}</td>
-                <td><a href="${deposit.proofOfPayment}" target="_blank">View Proof</a></td>
+               <td><a href="/uploads/${deposit.proof}" target="_blank">View Proof</a></td>
             `;
             depositHistory.appendChild(tr);
         });
