@@ -26,7 +26,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
 // MongoDB connection
-mongoose.connect('mongodb+srv://expenza:expenza@expenza.oygju.mongodb.net/expenza', {
+// mongoose.connect('mongodb+srv://expenza:expenza@expenza.oygju.mongodb.net/expenza', {
+mongoose.connect('mongodb+srv://swanga:swanga@swanga.zerhv.mongodb.net/swanga', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -136,15 +137,6 @@ const ensureApproved = async (req, res, next) => {
     next();
   };
 
-// // File upload configuration
-// const storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, 'uploads/');
-//     },
-//     filename: (req, file, cb) => {
-//         cb(null, Date.now() + path.extname(file.originalname));
-//     },
-// });
 
 
 // Multer Storage Configuration
@@ -181,32 +173,6 @@ io.on('connection', (socket) => {
 });
 
 
-// Function to schedule profit increments with a steady increase
-// const scheduleProfitIncrement = (user, incrementConfig) => {
-//     const { percentageRate, minimumIncrement, interval } = incrementConfig;
-
-//     // Schedule a task to run every 24 hours
-//     const task = cron.schedule(interval, async () => {
-//         const percentageIncrement = user.profits * percentageRate; // Calculate percentage-based increment
-//         const increment = Math.max(percentageIncrement, minimumIncrement); // Determine the final increment
-
-//         // Apply the increment to the user's profits
-//         user.profits += increment;
-//         await user.save();
-
-//         // Send notifications
-//         emitNotification(
-//             user._id,
-//             `Your profits have been updated! Current profits: $${user.profits.toFixed(2)}`
-//         );
-
-//         // Emit updated profits to WebSocket
-//         io.to(user._id.toString()).emit('profitUpdate', { profits: user.profits });
-//     });
-
-//     // Start the cron task 
-//     task.start();
-// };
 
 
 const scheduleProfitIncrement = (user, incrementConfig) => {
@@ -796,19 +762,7 @@ app.get('/api/plans', authenticate, async (req, res) => {
 
 
 
-const seedPlans = async () => {
-    const plans = [
-        { name: 'Basic Plan', baseAmount: 1000, duration: '1 month', description: 'A basic investment plan.' },
-        { name: 'Standard Plan', baseAmount: 5000, duration: '3 months', description: 'A standard investment plan.' },
-        { name: 'Premium Plan', baseAmount: 10000, duration: '6 months', description: 'A premium investment plan.' },
-    ];
 
-    await Plan.insertMany(plans);
-    console.log('Plans seeded successfully');
-};
-
-// Call this function once to seed the data (don't forget to remove or comment it out after running)
-seedPlans();
 
 
 

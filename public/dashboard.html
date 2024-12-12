@@ -3,191 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard - Fintech App</title>
+    <title>User Dashboard - Swingify</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
-
-<!-- <style> 
-body{
-   
-}
-/* Marquee styling */
-.marquee {
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.marquee-content {
-    display: inline-block;
-    padding-left: 100%; /* Start off screen */
-    animation: marquee 30s linear infinite;
-}
-
-@keyframes marquee {
-    0% {
-        transform: translate(0, 0);
-    }
-    100% {
-        transform: translate(-100%, 0);
-    }
-}
-</style>
-
-
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <span>
-            <img src="images/eagle.jpeg" alt="" style="width: 50px;">
-          </span>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link" href="index.html">Logout</a></li>
-            </ul>
-        </div>
-    </nav>
-    
-
-    <div class="container my-4">
-        <h2 class="text-center">Cryptocurrency Prices</h2>
-        <div class="marquee">
-            <div class="marquee-content" id="cryptoMarquee">
-                Cryptocurrency data will be inserted here
-            </div>
-        </div>
-    </div>
-
-
-    <div class="container mt-4">
-        <h1>User Dashboard</h1>
-
-        User Details
-        <div class="mb-4">
-            <h4>Your Profile</h4>
-            <p><strong>Name:</strong> <span id="userName"></span></p>
-            <p><strong>Email:</strong> <span id="userEmail"></span></p>
-            <p><strong>Balance:</strong> $<span id="balance"></span></p>
-            <p><strong>Total Profits:</strong> $<span id="profits"></span></p>
-        </div>
- 
-        
-        Bootstrap Tabs for Deposit, Withdrawal, and Feedback
-        <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="deposit-tab" data-toggle="tab" href="#deposit" role="tab" aria-controls="deposit" aria-selected="true">Deposit</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="withdraw-tab" data-toggle="tab" href="#withdraw" role="tab" aria-controls="withdraw" aria-selected="false">Withdraw</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="transactions-tab" data-toggle="tab" href="#transactions" role="tab" aria-controls="transactions" aria-selected="false">Transaction History</a>
-            </li>
-        </ul>
-        
-        <div class="tab-content" id="dashboardTabContent">
-            Deposit Tab
-            <div class="tab-pane fade show active" id="deposit" role="tabpanel" aria-labelledby="deposit-tab">
-                <h4>Your Deposit History</h4>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Amount</th>
-                            <th>Status</th>
-                            <th>Approved At</th>
-                            <th>Proof of Payment</th>
-                        </tr>
-                    </thead>
-                    <tbody id="depositHistory">
-                        Deposit history will be injected here
-                    </tbody>
-                </table>
-                <h4>Deposit Money</h4>
-                <form id="depositForm">
-                    <div class="form-group">
-                        <label for="plan">Select Investment Plan</label>
-                        <select class="form-control" id="plan" required>
-                            <option value="" disabled selected>Select a plan</option>
-                            <option value="Plan A">Basic Plan - 30% Return</option>
-                            <option value="Plan B">Standard Plan - 60% Return</option>
-                            <option value="Plan C">Premium Plan - 10% Return</option>
-                            <option value="Plan C">Joint Plan - 100% Return</option>
-                        </select> 
-                    </div>
-                    <div class="form-group">
-                        <label for="walletAddress">Select Wallet Address</label>
-                        <select class="form-control" id="walletAddress" required>
-                            <option value="" disabled selected>Select a wallet address</option>
-                            <option value="3KxtE5dxYF1GU1D9tJzovvyrCNe721ka2x">Bitcoin (3KxtE5dxYF1GU1D9tJzovvyrCNe721ka2x)</option>
-                            <option value="0x4d1bb3dfb6a9cd62131d00445b445b5e7d279291">Ethereum (0x4d1bb3dfb6a9cd62131d00445b445b5e7d279291)</option>
-                            <option value="TYo9zBCg3oGZEZ46DDYub2YiCWeLLuQZUv">Tron (TYo9zBCg3oGZEZ46DDYub2YiCWeLLuQZUv)</option>
-                        </select>
-                        <button type="button" class="btn btn-outline-secondary mt-2" onclick="copyWalletAddress()">Copy Address</button>
-                    </div>
-                    <div class="form-group">
-                        <label for="amount">Amount</label>
-                        <input type="number" class="form-control" id="amount" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="proof">Upload Proof of Payment</label>
-                        <input type="file" class="form-control-file" id="proof" name="proofOfPayment" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit Deposit</button>
-                </form>
-            </div>
-            
-            Withdraw Tab
-            <div class="tab-pane fade" id="withdraw" role="tabpanel" aria-labelledby="withdraw-tab">
-                <h4>Withdraw Money</h4>
-                <form id="withdrawForm">
-                    <div class="form-group">
-                        <label for="withdrawAmount">Amount to Withdraw</label>
-                        <input type="number" class="form-control" id="withdrawAmount" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="withdrawAddress">Wallet Address</label>
-                        <input type="text" class="form-control" id="withdrawAddress" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Request Withdrawal</button>
-                </form>
-            </div>
-
-            Withdrawal history
-            <h4>Your Withdrawal History</h4>
-            <table class="table table-bordered" id="withdrawalHistoryTable">
-                <thead>
-                    <tr>
-                        <th>Amount</th>
-                        <th>Status</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody id="withdrawalHistory">
-                    Withdrawal history will be injected here
-                </tbody>
-            </table>
-
-            Transactions Tab
-            <div class="tab-pane fade" id="transactions" role="tabpanel" aria-labelledby="transactions-tab">
-                <h4>Your Transactions</h4>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Amount</th>
-                            <th>Type</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="transactionHistory">
-                        Transaction history will be injected here
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div> -->
-
 
     <style>
         body {
@@ -218,9 +37,8 @@ body{
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-info">
-        <span class="fe-bold text-primary bg-dark">
-            Swingify
-            <!-- <img src="images/eagle.jpeg" alt="Logo" style="width: 50px;"> -->
+        <span>
+            <img src="images/eagle.jpeg" alt="Logo" style="width: 50px;">
         </span>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
@@ -238,19 +56,7 @@ body{
         </div>
     </div>
 
-    <!-- <div class="container mt-4">
-        <h1>User Dashboard</h1>
-
-        User Details
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Your Profile</h4>
-                <p><strong>Name:</strong> <span id="userName"></span></p>
-                <p><strong>Email:</strong> <span id="userEmail"></span></p>
-                <p><strong>Balance:</strong> $<span id="balance"></span></p>
-                <p><strong>Total Profits:</strong> $<span id="profits"></span></p>
-            </div>
-        </div> -->
+   
 
         <div class="container mt-4">
             <h1>User Dashboard</h1>
